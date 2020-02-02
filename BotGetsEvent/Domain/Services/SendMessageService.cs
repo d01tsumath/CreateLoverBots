@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace BotGetsEvent.Domain.Services
 {
-    public class SendMessageService
+    public class BotService
     {
         private AppSettings AppSettings { get; set; }
 
-        public SendMessageService(AppSettings appSettings)
+        public BotService(AppSettings appSettings)
         {
             if (appSettings == null)
                 throw new ArgumentNullException(nameof(appSettings));
@@ -20,7 +20,7 @@ namespace BotGetsEvent.Domain.Services
             AppSettings = appSettings;
         }
 
-        public async Task<IActionResult> SendMessageAsync()
+        public async Task<IActionResult> SpeakMessageAsync()
         {
             var slack_text = "本気のときはいつもフリーだ";
             var uri = new Uri(AppSettings.SlackConfiguration.WebhookEndpoint);
