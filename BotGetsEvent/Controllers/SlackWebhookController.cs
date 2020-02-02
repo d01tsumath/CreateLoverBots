@@ -16,11 +16,11 @@ namespace BotGetsEvent.Controllers
     /// </summary>
     public class SlackWebhookController
     {
-        private SendMessageService _sendMessageService;
+        private BotService _botService;
 
-        public SlackWebhookController(SendMessageService sendMessageService)
+        public SlackWebhookController(BotService botService)
         {
-            _sendMessageService = sendMessageService;
+            _botService = botService;
         }
 
         [FunctionName("Api_ReturnMessage")]
@@ -35,7 +35,7 @@ namespace BotGetsEvent.Controllers
             log.LogInformation($"token:{json.Token}, challenge:{json.Challenge}, type:{json.Type}");
 
             // Bot からメッセージをしゃべらせる
-            var result = await _sendMessageService.SendMessageAsync();
+            var result = await _botService.SpeakMessageAsync();
 
             // そのまま challenge の値を返す
             return new ObjectResult(JsonSerializer.Serialize(new { challenge = json.Challenge }));
