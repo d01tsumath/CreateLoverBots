@@ -53,7 +53,7 @@ namespace BotGetsEvent.Domain.Services
         /// <param name="content"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public ValueTask AddAsync(string queueName, byte[] content, CancellationToken cancellationToken = default)
+        public ValueTask AddAsync(string queueName, string content, CancellationToken cancellationToken = default)
         {
             var message = new CloudQueueMessage(content);
             return this.AddAsync(queueName, message, cancellationToken);
