@@ -71,6 +71,7 @@ namespace BotGetsEvent
 
             services.AddSlack(appSettings);
             services.TryAddScoped<BotService>();
+            services.TryAddSingleton<StorageQueueService>();
             return services;
         }
 
