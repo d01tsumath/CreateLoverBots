@@ -1,5 +1,5 @@
 ﻿using BotGetsEvent.Configurations;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -20,7 +20,7 @@ namespace BotGetsEvent.Domain.Services
             AppSettings = appSettings;
         }
 
-        public async Task<IActionResult> SpeakMessageAsync()
+        public async Task SpeakMessageAsync(ILogger logger)
         {
             var slack_text = "本気のときはいつもフリーだ";
             var uri = new Uri(AppSettings.SlackConfiguration.WebhookEndpoint);
@@ -33,11 +33,15 @@ namespace BotGetsEvent.Domain.Services
             var content = new StringContent(data, Encoding.UTF8, @"application/json");
 
             var client = new HttpClient();
-            var response = await client.PostAsync(uri, content);
-            if (response.IsSuccessStatusCode)
-                return new AcceptedResult();
+            try
+            {
+                var response = await client.PostAsync(uri, content);
+            }
+            catch(HttpRequestException e)
+            {
+                logger.LogError(e.Message);
+            }
 
-            return new BadRequestResult();
         }
     }
 }

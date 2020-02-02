@@ -35,7 +35,7 @@ namespace BotGetsEvent.Controllers
             log.LogInformation($"token:{json.Token}, challenge:{json.Challenge}, type:{json.Type}");
 
             // Bot からメッセージをしゃべらせる
-            var result = await _botService.SpeakMessageAsync();
+            await _botService.SpeakMessageAsync(log);
 
             // そのまま challenge の値を返す
             return new ObjectResult(JsonSerializer.Serialize(new { challenge = json.Challenge }));
