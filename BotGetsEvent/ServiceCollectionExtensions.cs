@@ -70,7 +70,7 @@ namespace BotGetsEvent
             if (appSettings == null) throw new ArgumentNullException(nameof(appSettings));
 
             services.AddSlack(appSettings);
-            services.TryAddScoped<SendMessageService>();
+            services.TryAddScoped<BotService>();
             return services;
         }
 
