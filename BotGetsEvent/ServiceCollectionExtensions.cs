@@ -1,5 +1,4 @@
 ﻿using BotGetsEvent.Configurations;
-using BotGetsEvent.Controller;
 using BotGetsEvent.Domain.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
