@@ -6,24 +6,25 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using System.IO;
-using BotGetsEvent.Model;
+using BotGetsEvent.Models;
+using BotGetsEvent.Domain.Services;
 
-namespace BotGetsEvent.Controller
+namespace BotGetsEvent.Controllers
 {
     /// <summary>
     /// Slack の Events API リクエストを受け取ります。
     /// </summary>
-    public class GetSubscriptionController
+    public class SlackWebhookController
     {
-        private SendMessageService _sendMessageService;
+        private BotService _botService;
 
-        public GetSubscriptionController(SendMessageService sendMessageService)
+        public SlackWebhookController(BotService botService)
         {
-            _sendMessageService = sendMessageService;
+            _botService = botService;
         }
 
-        [FunctionName("Get_EventRequest")]
-        public async ValueTask<IActionResult> GetEventRequestAsync(
+        [FunctionName("Api_ReturnMessage")]
+        public async ValueTask<IActionResult> ReturnMessageAsync(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest request,
             ILogger log)
         {
@@ -34,7 +35,7 @@ namespace BotGetsEvent.Controller
             log.LogInformation($"token:{json.Token}, challenge:{json.Challenge}, type:{json.Type}");
 
             // Bot からメッセージをしゃべらせる
-            var result = await _sendMessageService.SendMessageAsync();
+            await _botService.SpeakMessageAsync(log);
 
             // そのまま challenge の値を返す
             return new ObjectResult(JsonSerializer.Serialize(new { challenge = json.Challenge }));

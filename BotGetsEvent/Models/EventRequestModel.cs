@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace BotGetsEvent.Model
+namespace BotGetsEvent.Models
 {
     /// <summary>
     /// Events API リクエストで受け取る Json のモデルです。
