@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace BotGetsEvent.Controller
+namespace BotGetsEvent.Domain.Services
 {
     public class SendMessageService
     {
