@@ -14,17 +14,17 @@ namespace BotGetsEvent.Controllers
     /// <summary>
     /// Slack の Events API リクエストを受け取ります。
     /// </summary>
-    public class GetSubscriptionController
+    public class SlackWebhookController
     {
         private SendMessageService _sendMessageService;
 
-        public GetSubscriptionController(SendMessageService sendMessageService)
+        public SlackWebhookController(SendMessageService sendMessageService)
         {
             _sendMessageService = sendMessageService;
         }
 
-        [FunctionName("Get_EventRequest")]
-        public async ValueTask<IActionResult> GetEventRequestAsync(
+        [FunctionName("Api_ReturnMessage")]
+        public async ValueTask<IActionResult> ReturnMessageAsync(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest request,
             ILogger log)
         {
