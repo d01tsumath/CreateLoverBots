@@ -1,5 +1,5 @@
 ﻿using BotGetsEvent.Configurations;
-using Microsoft.Extensions.Logging;
+using BotGetsEvent.Models;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace BotGetsEvent.Domain.Services
 {
+    /// <summary>
+    /// Slack Bot の処理について提供します。
+    /// </summary>
     public class BotService
     {
         private AppSettings AppSettings { get; set; }
@@ -24,7 +27,23 @@ namespace BotGetsEvent.Domain.Services
 
         #endregion
 
-        public async Task SpeakMessageAsync(ILogger logger)
+        /// <summary>
+        /// ペイロードを処理します。
+        /// </summary>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        public async Task ProcessAsync(string payload)
+        {
+            var json = JsonSerializer.Deserialize<EventRequestModel>(payload);
+            if (json.Type.Equals("event_callback"))
+            {
+                // "event_callback" のときのみ
+                await this.SpeakMessageAsync();
+            }
+            return;
+        }
+
+        public async Task SpeakMessageAsync()
         {
             var slack_text = "本気のときはいつもフリーだ";
             var uri = new Uri(AppSettings.SlackConfiguration.WebhookEndpoint);
@@ -43,7 +62,7 @@ namespace BotGetsEvent.Domain.Services
             }
             catch(HttpRequestException e)
             {
-                logger.LogError(e.Message);
+                throw new HttpRequestException(e.Message);
             }
 
         }
