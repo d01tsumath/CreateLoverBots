@@ -84,7 +84,15 @@ namespace BotGetsEvent.Controllers
         public async Task ProcessPayload(
             [QueueTrigger(QueueName)]CloudQueueMessage message)
         {
-            
+            try
+            {
+                this.Logger.LogInformation($"データ処理 : Start | MessageId : {message.Id}");
+                await this.BotService.ProcessAsync(message.AsString).ConfigureAwait(false);
+            }
+            finally
+            {
+                this.Logger.LogInformation($"データ処理 : End | MessageId : {message.Id}");
+            }
         }
 
     }
