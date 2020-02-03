@@ -46,6 +46,11 @@ namespace BotGetsEvent.Controllers
 
         #endregion
 
+        /// <summary>
+        /// Slack Event API からの Webhook を処理します。
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [FunctionName("Http_ReturnMessage")]
         public async ValueTask<IActionResult> ReturnMessageAsync(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest request)

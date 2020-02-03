@@ -13,7 +13,12 @@ namespace BotGetsEvent.Domain.Services
     /// </summary>
     public class BotService
     {
+
+        #region プロパティ
+
         private AppSettings AppSettings { get; set; }
+
+        #endregion
 
         #region コンストラクタ
 
@@ -43,6 +48,10 @@ namespace BotGetsEvent.Domain.Services
             return;
         }
 
+        /// <summary>
+        /// Bot に発言させます。
+        /// </summary>
+        /// <returns></returns>
         public async Task SpeakMessageAsync()
         {
             var slack_text = "本気のときはいつもフリーだ";

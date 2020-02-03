@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BotGetsEvent.Domain.Services
 {
+    /// <summary>
+    /// Azure WebJobs が利用する Storage Queue への操作を提供します。
+    /// </summary>
     public class StorageQueueService
     {
         #region プロパティ
