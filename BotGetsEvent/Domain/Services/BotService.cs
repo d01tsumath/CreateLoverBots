@@ -12,6 +12,8 @@ namespace BotGetsEvent.Domain.Services
     {
         private AppSettings AppSettings { get; set; }
 
+        #region コンストラクタ
+
         public BotService(AppSettings appSettings)
         {
             if (appSettings == null)
@@ -19,6 +21,8 @@ namespace BotGetsEvent.Domain.Services
 
             AppSettings = appSettings;
         }
+
+        #endregion
 
         public async Task SpeakMessageAsync(ILogger logger)
         {
