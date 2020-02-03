@@ -25,20 +25,30 @@ namespace BotGetsEvent.Controllers
         private const string QueueName = "slack-message";
         #endregion
 
-        private StorageQueueService _queueService;
+        #region プロパティ
 
-        private BotService _botService;
+        private StorageQueueService QueueService { get; }
 
-        public SlackWebhookController(StorageQueueService queueService, BotService botService)
+        private BotService BotService { get; }
+
+        private ILogger<SlackWebhookController> Logger { get; }
+
+        #endregion
+
+        #region コンストラクタ
+
+        public SlackWebhookController(StorageQueueService queueService, BotService botService, ILogger<SlackWebhookController> logger)
         {
-            _queueService = queueService;
-            _botService = botService;
+            QueueService = queueService;
+            BotService = botService;
+            Logger = logger;
         }
+
+        #endregion
 
         [FunctionName("Http_ReturnMessage")]
         public async ValueTask<IActionResult> ReturnMessageAsync(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest request,
-            ILogger log)
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest request)
         {
             try
             {
@@ -46,7 +56,7 @@ namespace BotGetsEvent.Controllers
                 var json = JsonSerializer.Deserialize<EventRequestModel>(requestBody);
 
                 // 中身確認したい
-                log.LogInformation($"token:{json.Token}, challenge:{json.Challenge}, type:{json.Type}");
+                Logger.LogInformation($"token:{json.Token}, challenge:{json.Challenge}, type:{json.Type}");
                 
                 if (json.Type.Equals("url_verification"))
                 {
@@ -55,12 +65,12 @@ namespace BotGetsEvent.Controllers
                 }
 
                 // "url_verification" 以外なら Queue へ投げる
-                await _queueService.AddAsync(QueueName, requestBody).ConfigureAwait(false);
+                await QueueService.AddAsync(QueueName, requestBody).ConfigureAwait(false);
                 return new OkObjectResult("");
             }
             catch (Exception ex)
             {
-                log.LogError(ex, "Event Callback の処理に失敗しました。");
+                Logger.LogError(ex, "Event Callback の処理に失敗しました。");
                 return new ObjectResult(ex);
             }
 
