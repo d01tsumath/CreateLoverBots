@@ -79,14 +79,16 @@ namespace BotGetsEvent
         /// Slack の構成を DI に登録します。
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="commerble"></param>
         /// <returns></returns>
         public static IServiceCollection AddSlack(this IServiceCollection services, AppSettings appSettings)
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
             if (appSettings == null) throw new ArgumentNullException(nameof(appSettings));
 
-            services.TryAddSingleton(appSettings);
+            services.TryAddScoped(p =>
+            {
+                return new BotService(appSettings.SlackConfiguration);
+            });
 
             return services;
         }
