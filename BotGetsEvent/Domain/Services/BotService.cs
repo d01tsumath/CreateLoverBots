@@ -1,5 +1,5 @@
 ﻿using BotGetsEvent.Configurations;
-using Microsoft.Extensions.Logging;
+using BotGetsEvent.Models;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -8,22 +8,54 @@ using System.Threading.Tasks;
 
 namespace BotGetsEvent.Domain.Services
 {
+    /// <summary>
+    /// Slack Bot の処理について提供します。
+    /// </summary>
     public class BotService
     {
-        private AppSettings AppSettings { get; set; }
 
-        public BotService(AppSettings appSettings)
+        #region プロパティ
+
+        private SlackConfiguration SlackConfiguration { get; set; }
+
+        #endregion
+
+        #region コンストラクタ
+
+        public BotService(SlackConfiguration configuration)
         {
-            if (appSettings == null)
-                throw new ArgumentNullException(nameof(appSettings));
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
 
-            AppSettings = appSettings;
+            SlackConfiguration = configuration;
         }
 
-        public async Task SpeakMessageAsync(ILogger logger)
+        #endregion
+
+        /// <summary>
+        /// ペイロードを処理します。
+        /// </summary>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        public async Task ProcessAsync(EventRequestModel model)
+        {
+            // var json = JsonSerializer.Deserialize<EventRequestModel>(payload);
+            if (model.Type.Equals("event_callback"))
+            {
+                // "event_callback" のときのみ
+                await this.SpeakMessageAsync();
+            }
+            return;
+        }
+
+        /// <summary>
+        /// Bot に発言させます。
+        /// </summary>
+        /// <returns></returns>
+        public async Task SpeakMessageAsync()
         {
             var slack_text = "本気のときはいつもフリーだ";
-            var uri = new Uri(AppSettings.SlackConfiguration.WebhookEndpoint);
+            var uri = new Uri(SlackConfiguration.WebhookEndpoint);
 
             var data = JsonSerializer.Serialize(new
             {
@@ -39,7 +71,7 @@ namespace BotGetsEvent.Domain.Services
             }
             catch(HttpRequestException e)
             {
-                logger.LogError(e.Message);
+                throw new HttpRequestException(e.Message);
             }
 
         }
