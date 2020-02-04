@@ -69,6 +69,9 @@ namespace BotGetsEvent.Controllers
                     return new ObjectResult(JsonSerializer.Serialize(new { challenge = json.Challenge }));
                 }
 
+                // "url_verification" 以外は何が入っているのか見たい
+                Logger.LogInformation($"Type:{json.Type}, User:{json.Event.User}");
+
                 // "url_verification" 以外なら Queue へ投げる
                 await QueueService.AddAsync(QueueName, requestBody).ConfigureAwait(false);
                 return new OkObjectResult("");
