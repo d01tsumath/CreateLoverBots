@@ -90,16 +90,16 @@ namespace BotGetsEvent.Controllers
         /// <returns></returns>
         [FunctionName("Queue_ProcessMessage")]
         public async Task ProcessPayload(
-            [QueueTrigger(QueueName)]CloudQueueMessage message)
+            [QueueTrigger(QueueName)]EventRequestModel eventModel)
         {
             try
             {
-                this.Logger.LogInformation($"データ処理 : Start | MessageId : {message.Id}");
-                await this.BotService.ProcessAsync(message.AsString).ConfigureAwait(false);
+                this.Logger.LogInformation($"データ処理 : Start | MessageId : {eventModel.ApiAppId}");
+                await this.BotService.ProcessAsync(eventModel).ConfigureAwait(false);
             }
             finally
             {
-                this.Logger.LogInformation($"データ処理 : End | MessageId : {message.Id}");
+                this.Logger.LogInformation($"データ処理 : End | MessageId : {eventModel.ApiAppId}");
             }
         }
 
