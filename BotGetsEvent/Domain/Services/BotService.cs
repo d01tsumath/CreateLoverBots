@@ -16,18 +16,18 @@ namespace BotGetsEvent.Domain.Services
 
         #region プロパティ
 
-        private AppSettings AppSettings { get; set; }
+        private SlackConfiguration SlackConfiguration { get; set; }
 
         #endregion
 
         #region コンストラクタ
 
-        public BotService(AppSettings appSettings)
+        public BotService(SlackConfiguration configuration)
         {
-            if (appSettings == null)
-                throw new ArgumentNullException(nameof(appSettings));
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
 
-            AppSettings = appSettings;
+            SlackConfiguration = configuration;
         }
 
         #endregion
@@ -55,7 +55,7 @@ namespace BotGetsEvent.Domain.Services
         public async Task SpeakMessageAsync()
         {
             var slack_text = "本気のときはいつもフリーだ";
-            var uri = new Uri(AppSettings.SlackConfiguration.WebhookEndpoint);
+            var uri = new Uri(SlackConfiguration.WebhookEndpoint);
 
             var data = JsonSerializer.Serialize(new
             {
