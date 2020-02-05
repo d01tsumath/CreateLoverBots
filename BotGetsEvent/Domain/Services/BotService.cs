@@ -39,11 +39,13 @@ namespace BotGetsEvent.Domain.Services
         /// <returns></returns>
         public async Task ProcessAsync(EventRequestModel model)
         {
-            // var json = JsonSerializer.Deserialize<EventRequestModel>(payload);
             if (model.Type.Equals("event_callback"))
             {
                 // "event_callback" のときのみ
-                await this.SpeakMessageAsync();
+                if (model.Event.Text.Contains("はるちゃん"))
+                {
+                    await this.SpeakMessageAsync();
+                }
             }
             return;
         }
