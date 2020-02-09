@@ -1,12 +1,12 @@
-﻿using BotGetsEvent.Configurations;
-using BotGetsEvent.Domain.Services;
+﻿using SlackCallbackEvent.Configurations;
+using SlackCallbackEvent.Domain.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 
 
-namespace BotGetsEvent
+namespace SlackCallbackEvent
 {
     /// <summary>
     /// <see cref="IServiceCollection"/> の拡張機能を提供します。

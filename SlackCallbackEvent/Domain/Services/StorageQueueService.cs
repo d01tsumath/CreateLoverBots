@@ -5,7 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BotGetsEvent.Domain.Services
+namespace SlackCallbackEvent.Domain.Services
 {
     /// <summary>
     /// Azure WebJobs が利用する Storage Queue への操作を提供します。

@@ -1,4 +1,4 @@
-﻿namespace BotGetsEvent.Configurations
+﻿namespace SlackCallbackEvent.Configurations
 {
     /// <summary>
     /// Slack の構成情報を表します。

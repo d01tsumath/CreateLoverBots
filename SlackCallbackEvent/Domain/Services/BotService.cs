@@ -1,12 +1,12 @@
-﻿using BotGetsEvent.Configurations;
-using BotGetsEvent.Models;
+﻿using SlackCallbackEvent.Configurations;
+using SlackCallbackEvent.Models;
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace BotGetsEvent.Domain.Services
+namespace SlackCallbackEvent.Domain.Services
 {
     /// <summary>
     /// Slack Bot の処理について提供します。
