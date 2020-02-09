@@ -5,6 +5,6 @@
     /// </summary>
     public class SlackConfiguration
     {
-        public string WebhookEndpoint { get; private set; }
+        public string HarukaWebhookEndpoint { get; private set; }
     }
 }

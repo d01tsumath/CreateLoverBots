@@ -60,7 +60,7 @@ namespace SlackCallbackEvent.Domain.Services
         public async Task SpeakMessageAsync()
         {
             var slack_text = "本気のときはいつもフリーだ";
-            var uri = new Uri(SlackConfiguration.WebhookEndpoint);
+            var uri = new Uri(SlackConfiguration.HarukaWebhookEndpoint);
 
             var data = JsonSerializer.Serialize(new
             {
