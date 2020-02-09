@@ -16,17 +16,20 @@ namespace SlackCallbackEvent.Domain.Services
 
         #region プロパティ
 
+        private HttpClient HttpClient { get; set; }
+
         private SlackConfiguration SlackConfiguration { get; set; }
 
         #endregion
 
         #region コンストラクタ
 
-        public BotService(SlackConfiguration configuration)
+        public BotService(HttpClient httpClient, SlackConfiguration configuration)
         {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
+            if (httpClient == null) throw new ArgumentNullException(nameof(httpClient));
+            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
+            HttpClient = httpClient;
             SlackConfiguration = configuration;
         }
 
@@ -66,10 +69,9 @@ namespace SlackCallbackEvent.Domain.Services
 
             var content = new StringContent(data, Encoding.UTF8, @"application/json");
 
-            var client = new HttpClient();
             try
             {
-                var response = await client.PostAsync(uri, content);
+                var response = await HttpClient.PostAsync(uri, content);
             }
             catch(HttpRequestException e)
             {
