@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace BotGetsEvent.Models
+namespace SlackCallbackEvent.Models
 {
     /// <summary>
     /// Events API リクエストで受け取る Json のモデルです。

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 
-[assembly: FunctionsStartup(typeof(BotGetsEvent.Startup))]
+[assembly: FunctionsStartup(typeof(SlackCallbackEvent.Startup))]
 
-namespace BotGetsEvent
+namespace SlackCallbackEvent
 {
     /// <summary>
     /// アプリケーションの起動に関する初期化処理を提供します。

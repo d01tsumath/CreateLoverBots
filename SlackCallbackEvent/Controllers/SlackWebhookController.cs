@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using System.IO;
-using BotGetsEvent.Models;
-using BotGetsEvent.Domain.Services;
+using SlackCallbackEvent.Models;
+using SlackCallbackEvent.Domain.Services;
 using Microsoft.Azure.Storage.Queue;
 using System;
 
-namespace BotGetsEvent.Controllers
+namespace SlackCallbackEvent.Controllers
 {
     /// <summary>
     /// Slack の Events API リクエストを受け取ります。

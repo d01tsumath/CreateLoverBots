@@ -1,12 +1,12 @@
-﻿using BotGetsEvent.Configurations;
-using BotGetsEvent.Domain.Services;
+﻿using SlackCallbackEvent.Configurations;
+using SlackCallbackEvent.Domain.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
+using System.Net.Http;
 
-
-namespace BotGetsEvent
+namespace SlackCallbackEvent
 {
     /// <summary>
     /// <see cref="IServiceCollection"/> の拡張機能を提供します。
@@ -85,9 +85,15 @@ namespace BotGetsEvent
             if (services == null) throw new ArgumentNullException(nameof(services));
             if (appSettings == null) throw new ArgumentNullException(nameof(appSettings));
 
+            //--- HttpClient を構成
+            const string HttpClientName = "SlackCallbackEvent.Domain.Services.BotService.HttpClient";
+            services.AddHttpClient(HttpClientName);
+
             services.TryAddScoped(p =>
             {
-                return new BotService(appSettings.SlackConfiguration);
+                var factory = p.GetRequiredService<IHttpClientFactory>();
+                var client = factory.CreateClient(HttpClientName);
+                return new BotService(client, appSettings.SlackConfiguration);
             });
 
             return services;
